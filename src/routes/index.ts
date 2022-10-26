@@ -1,5 +1,5 @@
 import express from "express";
-import { mintService } from "../services";
+import { mintService, mintErrorService } from "../services";
 
 const router = express.Router();
 
@@ -11,6 +11,16 @@ router.get("/", (req, res) => {
 router.post("/mint", async (req, res) => {
   try {
     const response: any = await mintService(req.body);
+    res.status(response.code).json(response.json);
+  } catch (serviceError) {
+    console.error("serviceError: ", serviceError);
+    res.status(500).json({ status: "Internal server error" });
+  }
+});
+
+router.post("/mint_error", async (req, res) => {
+  try {
+    const response = await mintErrorService(req.body);
     res.status(response.code).json(response.json);
   } catch (serviceError) {
     console.error("serviceError: ", serviceError);

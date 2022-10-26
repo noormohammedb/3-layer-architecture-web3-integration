@@ -1,11 +1,11 @@
 import { mintIntegration } from "../integration";
 
-const mintService = (data: any) => {
+const mintService = async (data: any) => {
   const { id, amount } = data;
 
   if (id != undefined && amount) {
     console.log("data: ", data);
-    const integationResponse = mintIntegration(id, amount);
+    const integationResponse = await mintIntegration(id, amount);
     console.log("integationResponse: ", integationResponse);
     return {
       code: 200,
